@@ -510,8 +510,8 @@ else:
             message_placeholder = st.empty()
             full_response = ""
 
-            # Removed the 150-word constraint to allow for detailed, long-form answers
-            api_messages = [{"role": "system", "content": SYSTEM_PROMPT + "\n\n[CRITICAL DIRECTIVE: Please provide a highly detailed, comprehensive, and long-form response to fully address the user's concerns.]"}]
+            # Instruct the AI to be detailed, but strictly enforce a word limit so it naturally finishes its thought before the 800 token cutoff.
+            api_messages = [{"role": "system", "content": SYSTEM_PROMPT + "\n\n[CRITICAL DIRECTIVE: You must provide a profound and detailed response, BUT you must completely finish your final sentence and conclude your response in under 400 words. DO NOT exceed this length or you will be cut off.]"}]
             api_messages += st.session_state.messages[:-1]
             
             user_query = st.session_state.messages[-1]["content"]
