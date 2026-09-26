@@ -4,14 +4,13 @@
 
 **MindfulMate** is a clinical-grade, AI-powered mental wellness companion built with **Streamlit** and **Groq**. It acts as a safe space for users to track their mood, vent their anxieties, and receive empathetic, evidence-based triage and informational support.
 
-With a beautiful, modern UI inspired by premium health applications, MindfulMate integrates advanced Retrieval-Augmented Generation (RAG) to remember user-uploaded medical journals, alongside seamless voice-to-text and text-to-speech capabilities.
+With a beautiful, modern UI inspired by premium health applications, MindfulMate integrates a deeply empathetic AI core alongside seamless voice-to-text and text-to-speech capabilities.
 
 ---
 
 ## ✨ Key Features
 
 - **Clinical-Grade Conversational AI:** Powered by Groq, Dr. MindfulMate adheres to a strict medical protocol—providing empathetic assessments, structured responses, and critical triage to emergency services when needed.
-- **RAG Memory (Document Uploads):** Users can upload their clinical journals or medical records (PDF/TXT). The app uses **LangChain** and **FAISS** to embed and search these documents locally, allowing the AI to maintain context about the user's specific medical history.
 - **Voice Interactions:** 
   - **Voice Input:** Speak directly to the AI using the integrated microphone UI (powered by `streamlit-mic-recorder` and Whisper).
   - **Text-to-Speech:** Listen to Dr. MindfulMate's responses aloud via the integrated `gTTS` audio generation engine.
@@ -24,10 +23,7 @@ With a beautiful, modern UI inspired by premium health applications, MindfulMate
 
 - **Frontend:** [Streamlit](https://streamlit.io/) with heavy custom CSS injections for a modern, non-standard aesthetic.
 - **AI / LLM Engine:** [Groq API](https://groq.com/) for blazing-fast inference.
-- **Vector Database:** [FAISS](https://faiss.ai/) (Facebook AI Similarity Search) for local, fast document retrieval.
-- **Embeddings & Chunking:** [LangChain](https://www.langchain.com/) (`RecursiveCharacterTextSplitter`, `HuggingFaceEmbeddings`).
 - **Audio Processing:** `gTTS` (Google Text-to-Speech) for audio output, and Groq's Whisper API for audio transcription.
-- **Document Parsing:** `PyPDF2` for robust PDF text extraction.
 
 ---
 
