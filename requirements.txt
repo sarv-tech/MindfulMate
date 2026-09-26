@@ -3,9 +3,4 @@ python-dotenv
 groq
 streamlit-mic-recorder
 gTTS
-langchain
-langchain-community
-langchain-huggingface
-faiss-cpu
-PyPDF2
-sentence-transformers
+

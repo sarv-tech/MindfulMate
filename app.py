@@ -4,11 +4,6 @@ import streamlit.components.v1 as components
 from dotenv import load_dotenv
 from groq import Groq
 from streamlit_mic_recorder import mic_recorder
-import PyPDF2
-from langchain_core.documents import Document
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # --------------------------------------------------
 # ENV
@@ -304,10 +299,6 @@ if "messages" not in st.session_state:
 if "mood_logged" not in st.session_state:
     st.session_state.mood_logged = False
 
-if "vector_store" not in st.session_state:
-    st.session_state.vector_store = None
-if "rag_enabled" not in st.session_state:
-    st.session_state.rag_enabled = False
 
 if "groq_client" not in st.session_state:
     api_key = os.getenv("GROQ_API_KEY")
@@ -364,45 +355,6 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    st.markdown('<div class="mm-section-label">📄 Clinical Documents & Journals</div>', unsafe_allow_html=True)
-    uploaded_file = st.file_uploader("Upload Journal or Med Record", type=["pdf", "txt"], help="Upload a file to give Dr. MindfulMate memory of your specific situation.")
-    if uploaded_file and st.button("Process Document", use_container_width=True):
-        with st.spinner("Reading & Embedding Document..."):
-            text = ""
-            if uploaded_file.name.endswith(".pdf"):
-                pdf_reader = PyPDF2.PdfReader(uploaded_file)
-                for page in pdf_reader.pages:
-                    page_text = page.extract_text()
-                    if page_text: text += page_text + "\n"
-            else:
-                text = uploaded_file.read().decode("utf-8", errors="ignore")
-            
-            if text.strip():
-                text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-                chunks = text_splitter.split_text(text)
-                documents = [Document(page_content=chunk) for chunk in chunks]
-                
-                embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-                st.session_state.vector_store = FAISS.from_documents(documents, embeddings)
-                st.session_state.rag_enabled = True
-                
-                sys_msg = f"[System: I just uploaded a document named '{uploaded_file.name}'. Acknowledge that you have processed it and briefly mention you are ready to answer questions about it.]"
-                st.session_state.messages.append({"role": "user", "content": sys_msg})
-                
-                st.success("Document added to memory!")
-            else:
-                st.error("Could not extract text.")
-
-    if st.session_state.rag_enabled:
-        st.markdown('<div class="mm-section-label">🔍 Search Records</div>', unsafe_allow_html=True)
-        search_query = st.text_input("Search your document directly...", placeholder="e.g. panic attacks")
-        if search_query:
-            results = st.session_state.vector_store.similarity_search(search_query, k=3)
-            for i, res in enumerate(results):
-                with st.expander(f"Match {i+1}"):
-                    st.write(res.page_content)
-                    
-    st.markdown("---")
 
     st.markdown('<div class="mm-section-label">Tips for using MindfulMate</div>', unsafe_allow_html=True)
     st.markdown(
@@ -564,17 +516,7 @@ else:
             
             user_query = st.session_state.messages[-1]["content"]
             
-            if st.session_state.rag_enabled and st.session_state.vector_store:
-                docs = st.session_state.vector_store.similarity_search(user_query, k=3)
-                context = "\n\n".join([d.page_content for d in docs])
-                if context:
-                    augmented_user_query = f"Context from my uploaded document:\n{context}\n\nMy Question:\n{user_query}"
-                else:
-                    augmented_user_query = user_query
-            else:
-                augmented_user_query = user_query
-                
-            api_messages.append({"role": "user", "content": augmented_user_query})
+            api_messages.append({"role": "user", "content": user_query})
 
             try:
                 with st.spinner("Dr. MindfulMate is typing..."):
