@@ -556,7 +556,6 @@ else:
                     const micContainer = mic.closest('div[data-testid="stElementContainer"]');
                     
                     if (micContainer && !micContainer.dataset.moved) {
-                        // Position the mic container inside the chat input
                         micContainer.style.position = 'absolute';
                         micContainer.style.right = '3.5rem';
                         micContainer.style.bottom = '20px';
@@ -568,7 +567,6 @@ else:
                         
                         chatInput.appendChild(micContainer);
                         
-                        // Add right padding to the chat textarea so text doesn't overlap mic
                         const textarea = chatInput.querySelector('textarea');
                         if (textarea) {
                             textarea.style.paddingRight = '6rem';
@@ -578,8 +576,13 @@ else:
             }
             
             moveMic();
-            const observer = new MutationObserver(moveMic);
-            observer.observe(parentDoc.body, { childList: true, subtree: true });
+            
+            // Prevent multiple observers from crashing the browser on reruns
+            if (!parentDoc.mm_mic_observer_installed) {
+                const observer = new MutationObserver(moveMic);
+                observer.observe(parentDoc.body, { childList: true, subtree: true });
+                parentDoc.mm_mic_observer_installed = true;
+            }
         </script>
         """,
         height=0,
