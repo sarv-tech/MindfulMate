@@ -1,6 +1,6 @@
 # 🌿 MindfulMate
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://mindfulmate-4eis8e5xadgfkalimvhum6.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://mindfulmate-xrz9svvq9bvq9ee7cd5fzv.streamlit.app/)
 
 **MindfulMate** is a clinical-grade, AI-powered mental wellness companion built with **Streamlit** and **Groq**. It acts as a safe space for users to track their mood, vent their anxieties, and receive empathetic, evidence-based triage and informational support.
 
