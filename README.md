@@ -10,7 +10,7 @@ With a beautiful, modern UI inspired by premium health applications, MindfulMate
 
 ## ✨ Key Features
 
-- **Clinical-Grade Conversational AI:** Powered by Groq, Dr. MindfulMate adheres to a strict medical protocol—providing empathetic assessments, structured responses, and critical triage to emergency services when needed.
+- **Clinical-Grade Conversational AI:** Powered by Groq, Dr. MindfulMate adheres to a strict medical protocol providing empathetic assessments, structured responses, and critical triage to emergency services when needed.
 - **Voice Interactions:** 
   - **Voice Input:** Speak directly to the AI using the integrated microphone UI (powered by `streamlit-mic-recorder` and Whisper).
   - **Text-to-Speech:** Listen to Dr. MindfulMate's responses aloud via the integrated `gTTS` audio generation engine.
