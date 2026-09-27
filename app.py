@@ -367,8 +367,7 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    st.markdown("---")
-    st.caption("v1.0 · Built with Streamlit + Groq")
+
 
 # --------------------------------------------------
 # HEADER
