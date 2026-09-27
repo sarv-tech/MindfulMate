@@ -291,8 +291,55 @@ st.markdown(
 )
 
 # --------------------------------------------------
-# SESSION STATE
+# SESSION STATE & THEME
 # --------------------------------------------------
+if "theme_mode" not in st.session_state:
+    st.session_state.theme_mode = "light"
+
+if st.session_state.theme_mode == "dark":
+    st.markdown(
+        """
+        <style>
+        :root {
+            --mm-bg:        #121815;
+            --mm-surface:   #1a241f;
+            --mm-primary:   #4ade80;
+            --mm-primary-2: #22c55e;
+            --mm-accent:    #064e3b;
+            --mm-text:      #e2ece7;
+            --mm-muted:     #94a3b8;
+            --mm-border:    #2d3748;
+            --mm-shadow:    0 4px 20px rgba(0,0,0,0.4);
+        }
+        .stApp {
+            background: var(--mm-bg) !important;
+        }
+        .mm-hero { background: linear-gradient(135deg, #1a241f 0%, #121815 100%); }
+        section[data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #1a241f 0%, #121815 100%) !important;
+            border-right: 1px solid var(--mm-border);
+        }
+        div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) {
+            background: #152b20 !important;
+            border-color: #1a3828 !important;
+        }
+        div[data-testid="stChatInput"] { background: #1a241f !important; }
+        .mm-badge { background: #152b20 !important; }
+        .mm-disclaimer { background: #332b13 !important; border-color: #665421 !important; color: #f2dc9b !important; }
+        div[data-testid="stChatMessage"] h3 { background: #152b20 !important; color: var(--mm-primary) !important;}
+        
+        /* Force text colors in dark mode */
+        h1, h2, h3, p, span, label, .stMarkdown p {
+            color: var(--mm-text) !important;
+        }
+        .mm-muted, .mm-brand-sub, .mm-tip {
+            color: var(--mm-muted) !important;
+        }
+        .mm-brand, .mm-section-label { color: var(--mm-primary) !important; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -338,6 +385,18 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
+    
+    st.markdown("<br/>", unsafe_allow_html=True)
+    theme_col1, theme_col2 = st.columns([1, 1])
+    with theme_col1:
+        if st.button("☀️ Light", use_container_width=True, disabled=st.session_state.theme_mode=="light"):
+            st.session_state.theme_mode = "light"
+            st.rerun()
+    with theme_col2:
+        if st.button("🌙 Dark", use_container_width=True, disabled=st.session_state.theme_mode=="dark"):
+            st.session_state.theme_mode = "dark"
+            st.rerun()
+    st.markdown("<br/>", unsafe_allow_html=True)
 
     st.markdown(
         """
