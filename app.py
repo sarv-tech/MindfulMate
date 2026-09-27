@@ -1275,19 +1275,23 @@ else:
     # ---------- Voice Input (Placed at bottom to avoid splitting chat flow) ----------
     audio = mic_recorder(start_prompt="🎙️ Voice Input", stop_prompt="🛑 Stop Recording", key="recorder")
     if audio:
-        import io
-        audio_file = io.BytesIO(audio['bytes'])
-        audio_file.name = "audio.wav"
-        try:
-            with st.spinner("Transcribing audio..."):
-                transcription = st.session_state.groq_client.audio.transcriptions.create(
-                    file=(audio_file.name, audio_file.read()),
-                    model="whisper-large-v3",
-                )
-                if transcription.text and transcription.text.strip():
-                    st.session_state.messages.append({"role": "user", "content": transcription.text.strip()})
-                    st.rerun()
-        except Exception as e:
-            st.error(f"Audio Transcription Error: {e}")
+        # Use an ID or hash to ensure we only process this exact recording once
+        audio_id = audio.get('id', hash(audio['bytes']))
+        if st.session_state.get('last_audio_id') != audio_id:
+            st.session_state.last_audio_id = audio_id
+            import io
+            audio_file = io.BytesIO(audio['bytes'])
+            audio_file.name = "audio.wav"
+            try:
+                with st.spinner("Transcribing audio..."):
+                    transcription = st.session_state.groq_client.audio.transcriptions.create(
+                        file=(audio_file.name, audio_file.read()),
+                        model="whisper-large-v3",
+                    )
+                    if transcription.text and transcription.text.strip():
+                        st.session_state.messages.append({"role": "user", "content": transcription.text.strip()})
+                        st.rerun()
+            except Exception as e:
+                st.error(f"Audio Transcription Error: {e}")
 
 
