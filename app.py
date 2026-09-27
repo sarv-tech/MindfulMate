@@ -1183,6 +1183,12 @@ else:
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     st.rerun()
 
+    # ---------- Input Processing ----------
+    # Process text input immediately so it enters the chat loop natively
+    prompt = st.chat_input("Type your message here...")
+    if prompt and prompt.strip():
+        st.session_state.messages.append({"role": "user", "content": prompt.strip()})
+
     st.markdown("---")
 
     # ---------- Chat history ----------
@@ -1210,30 +1216,6 @@ else:
                             st.markdown(audio_html, unsafe_allow_html=True)
                         except AssertionError:
                             st.error("No text available to read aloud.")
-
-    # ---------- Chat input & Voice ----------
-    audio = mic_recorder(start_prompt="🎙️", stop_prompt="🛑", key="recorder")
-    
-    prompt = st.chat_input("Type your message here...")
-    
-    if audio and not prompt:
-        import io
-        audio_file = io.BytesIO(audio['bytes'])
-        audio_file.name = "audio.wav"
-        try:
-            with st.spinner("Transcribing audio..."):
-                transcription = st.session_state.groq_client.audio.transcriptions.create(
-                    file=(audio_file.name, audio_file.read()),
-                    model="whisper-large-v3",
-                )
-                prompt = transcription.text
-        except Exception as e:
-            st.error(f"Audio Transcription Error: {e}")
-
-    if prompt and prompt.strip():
-        st.session_state.messages.append({"role": "user", "content": prompt.strip()})
-        with st.chat_message("user", avatar="🧑"):
-            st.markdown(prompt)
 
     # ---------- Generate AI response ----------
     if (
@@ -1289,5 +1271,23 @@ else:
                     {"role": "assistant", "content": error_msg}
                 )
                 print(f"API Error: {e}")
+
+    # ---------- Voice Input (Placed at bottom to avoid splitting chat flow) ----------
+    audio = mic_recorder(start_prompt="🎙️ Voice Input", stop_prompt="🛑 Stop Recording", key="recorder")
+    if audio:
+        import io
+        audio_file = io.BytesIO(audio['bytes'])
+        audio_file.name = "audio.wav"
+        try:
+            with st.spinner("Transcribing audio..."):
+                transcription = st.session_state.groq_client.audio.transcriptions.create(
+                    file=(audio_file.name, audio_file.read()),
+                    model="whisper-large-v3",
+                )
+                if transcription.text and transcription.text.strip():
+                    st.session_state.messages.append({"role": "user", "content": transcription.text.strip()})
+                    st.rerun()
+        except Exception as e:
+            st.error(f"Audio Transcription Error: {e}")
 
 
