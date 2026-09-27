@@ -328,7 +328,9 @@ if current_mode == "dark":
         div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) { background: #152b20 !important; border-color: #1a3828 !important; }
         div[data-testid="stChatInput"] { background: #1a241f !important; }
         div[data-testid="stChatMessage"] h3 { background: #152b20 !important; }
-        iframe { border: none !important; background: transparent !important; }
+        iframe { border: none !important; background: transparent !important; outline: none !important; box-shadow: none !important; }
+        div[data-testid="stStreamlitComponent"] { border: none !important; outline: none !important; box-shadow: none !important; }
+        div.element-container:has(iframe) { border: none !important; outline: none !important; box-shadow: none !important; }
         </style>
         """,
         unsafe_allow_html=True,
