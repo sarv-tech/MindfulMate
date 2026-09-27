@@ -68,7 +68,9 @@ st.markdown(
     /* ---------- Hide Streamlit chrome ---------- */
     #MainMenu, footer { visibility: hidden; }
     [data-testid="stHeader"] {
-        background: transparent !important;
+        background: var(--mm-bg) !important;
+        box-shadow: none !important;
+        border-bottom: none !important;
     }
     .block-container {
         padding-top: 1.5rem;
