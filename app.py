@@ -1189,6 +1189,8 @@ else:
     for i, message in enumerate(st.session_state.messages):
         if message["content"].startswith("[Mood Context:") or message["content"].startswith("[System:"):
             continue
+        if not message["content"].strip():
+            continue
         avatar = "🧑" if message["role"] == "user" else "🌿"
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
@@ -1228,8 +1230,8 @@ else:
         except Exception as e:
             st.error(f"Audio Transcription Error: {e}")
 
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
+    if prompt and prompt.strip():
+        st.session_state.messages.append({"role": "user", "content": prompt.strip()})
         with st.chat_message("user", avatar="🧑"):
             st.markdown(prompt)
 
@@ -1265,7 +1267,11 @@ else:
                         full_response += chunk.choices[0].delta.content
                         message_placeholder.markdown(full_response + "▌")
 
-                message_placeholder.markdown(full_response)
+                if not full_response.strip():
+                    full_response = "I'm sorry, I had a little trouble processing that. Could you please say it again?"
+                    message_placeholder.markdown(full_response)
+                else:
+                    message_placeholder.markdown(full_response)
 
                 st.session_state.messages.append(
                     {"role": "assistant", "content": full_response}
