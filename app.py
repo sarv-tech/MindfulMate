@@ -59,10 +59,7 @@ st.markdown(
 
     /* ---------- App background ---------- */
     .stApp {
-        background:
-            radial-gradient(1200px 600px at 10% -10%, #e8f3ed 0%, transparent 60%),
-            radial-gradient(900px 500px at 100% 0%, #eef6f1 0%, transparent 55%),
-            var(--mm-bg);
+        background: var(--mm-bg) !important;
     }
 
     /* ---------- Hide Streamlit chrome ---------- */
