@@ -35,21 +35,24 @@ st.markdown(
 
     /* ---------- Palette ---------- */
     :root {
-        --mm-bg:        #121815;
-        --mm-surface:   #1a241f;
-        --mm-primary:   #4ade80;
-        --mm-primary-2: #22c55e;
-        --mm-accent:    #064e3b;
-        --mm-text:      #e2ece7;
-        --mm-muted:     #94a3b8;
-        --mm-border:    #2d3748;
-        --mm-shadow:    0 4px 20px rgba(0,0,0,0.4);
+        --mm-bg:        #f7faf7;
+        --mm-surface:   #ffffff;
+        --mm-primary:   #2f6b4f;
+        --mm-primary-2: #3f8a66;
+        --mm-accent:    #a7d7c5;
+        --mm-text:      #1f2a24;
+        --mm-muted:     #5c6b63;
+        --mm-border:    #e2ece7;
+        --mm-shadow:    0 4px 20px rgba(47,107,79,0.08);
         --mm-radius:    14px;
     }
 
     /* ---------- App background ---------- */
     .stApp {
-        background: var(--mm-bg);
+        background:
+            radial-gradient(1200px 600px at 10% -10%, #e8f3ed 0%, transparent 60%),
+            radial-gradient(900px 500px at 100% 0%, #eef6f1 0%, transparent 55%),
+            var(--mm-bg);
     }
 
     /* ---------- Hide Streamlit chrome ---------- */
@@ -69,7 +72,7 @@ st.markdown(
 
     /* ---------- Hero ---------- */
     .mm-hero {
-        background: linear-gradient(135deg, #1a241f 0%, #121815 100%);
+        background: linear-gradient(135deg, #ffffff 0%, #f0f8f3 100%);
         border: 1px solid var(--mm-border);
         border-radius: var(--mm-radius);
         padding: 1.5rem 1.75rem;
@@ -88,7 +91,7 @@ st.markdown(
     }
     .mm-badge {
         display: inline-block;
-        background: #152b20;
+        background: #e8f3ed;
         color: var(--mm-primary);
         font-size: .75rem;
         font-weight: 600;
@@ -101,7 +104,7 @@ st.markdown(
 
     /* ---------- Sidebar ---------- */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1a241f 0%, #121815 100%);
+        background: linear-gradient(180deg, #ffffff 0%, #f3f9f5 100%);
         border-right: 1px solid var(--mm-border);
     }
     section[data-testid="stSidebar"] .block-container {
@@ -122,14 +125,14 @@ st.markdown(
         margin-bottom: 1rem;
     }
     .mm-disclaimer {
-        background: #332b13;
-        border: 1px solid #665421;
-        border-left: 4px solid #b3923b;
+        background: #fff8e6;
+        border: 1px solid #f0e0a8;
+        border-left: 4px solid #e0b84a;
         border-radius: 10px;
         padding: .85rem 1rem;
         font-size: .82rem;
         line-height: 1.45;
-        color: #f2dc9b;
+        color: #4a3f1a;
         margin: .5rem 0 1rem 0;
     }
     .mm-tip {
@@ -248,7 +251,7 @@ st.markdown(
         font-size: 0.85rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        background: #152b20;
+        background: #e8f3ed;
         color: var(--mm-primary);
         padding: 0.3rem 0.6rem;
         border-radius: 6px;
@@ -336,6 +339,28 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
     
+    st.markdown("<br/>", unsafe_allow_html=True)
+    
+    current_mode = "light"
+    config_path = ".streamlit/config.toml"
+    if os.path.exists(config_path):
+        with open(config_path, "r") as f:
+            if 'base="dark"' in f.read():
+                current_mode = "dark"
+                
+    theme_col1, theme_col2 = st.columns([1, 1])
+    with theme_col1:
+        if st.button("☀️ Light", use_container_width=True, disabled=(current_mode == "light")):
+            os.makedirs(".streamlit", exist_ok=True)
+            with open(config_path, "w") as f:
+                f.write('[theme]\nbase="light"\nprimaryColor="#2f6b4f"\nbackgroundColor="#f7faf7"\nsecondaryBackgroundColor="#e8f3ed"\ntextColor="#1f2a24"\nfont="sans serif"\n')
+            st.rerun()
+    with theme_col2:
+        if st.button("🌙 Dark", use_container_width=True, disabled=(current_mode == "dark")):
+            os.makedirs(".streamlit", exist_ok=True)
+            with open(config_path, "w") as f:
+                f.write('[theme]\nbase="dark"\nprimaryColor="#4ade80"\nbackgroundColor="#121815"\nsecondaryBackgroundColor="#1a241f"\ntextColor="#e2ece7"\nfont="sans serif"\n')
+            st.rerun()
     st.markdown("<br/>", unsafe_allow_html=True)
 
     st.markdown(
