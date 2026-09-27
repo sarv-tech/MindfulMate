@@ -217,14 +217,19 @@ st.markdown(
 
     /* ---------- Chat input ---------- */
     div[data-testid="stChatInput"] {
-        border-radius: 999px;
-        border: 1px solid var(--mm-border);
-        background: #ffffff;
-        box-shadow: var(--mm-shadow);
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
-    div[data-testid="stChatInput"]:focus-within {
-        border-color: var(--mm-primary-2);
-        box-shadow: 0 0 0 3px rgba(63,138,102,0.15);
+    div[data-testid="stChatInput"] > div {
+        border-radius: 999px !important;
+        border: 1px solid var(--mm-border) !important;
+        background: #ffffff !important;
+        box-shadow: var(--mm-shadow) !important;
+    }
+    div[data-testid="stChatInput"] > div:focus-within {
+        border-color: var(--mm-primary-2) !important;
+        box-shadow: 0 0 0 3px rgba(63,138,102,0.15) !important;
     }
 
     /* ---------- Alerts ---------- */
@@ -325,7 +330,8 @@ if current_mode == "dark":
         .stButton > button { background: #1a241f !important; }
         .stButton > button:hover { background: #152b20 !important; }
         div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) { background: #152b20 !important; border-color: #1a3828 !important; }
-        div[data-testid="stChatInput"] { background: #1a241f !important; }
+        div[data-testid="stChatInput"] { background: transparent !important; border: none !important; box-shadow: none !important; }
+        div[data-testid="stChatInput"] > div { background: #1a241f !important; }
         div[data-testid="stChatMessage"] h3 { background: #152b20 !important; }
         iframe { border: none !important; background: transparent !important; outline: none !important; box-shadow: none !important; }
         div[data-testid="stStreamlitComponent"] { border: none !important; outline: none !important; box-shadow: none !important; }
