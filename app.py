@@ -1063,6 +1063,12 @@ SAFE + EMPATHETIC + PRACTICAL + HONEST + CONVERSATIONAL
 Never sacrifice safety for conversational style, and never sacrifice
 natural conversation by unnecessarily turning ordinary wellness questions
 into clinical assessments.
+
+OUTPUT FORMAT:
+- Never display internal reasoning, chain-of-thought, hidden analysis, or reasoning traces.
+- Never output <think>, </think>, or similar reasoning tags.
+- Return only the final response intended for the user.
+- Do not explain your internal reasoning process.
 """
 
 # --------------------------------------------------
@@ -1267,6 +1273,7 @@ else:
             api_messages.append({"role": "user", "content": user_query})
 
             try:
+                import re
                 with st.spinner("MindfulMate is typing..."):
                     stream = st.session_state.groq_client.chat.completions.create(
                         model="qwen/qwen3.8-27b",
@@ -1278,7 +1285,18 @@ else:
                 for chunk in stream:
                     if chunk.choices and chunk.choices[0].delta.content is not None:
                         full_response += chunk.choices[0].delta.content
-                        message_placeholder.markdown(full_response + "▌")
+                        
+                        # Dynamically clean <think> tags from the stream
+                        display_text = re.sub(r"<think>.*?</think>", "", full_response, flags=re.DOTALL | re.IGNORECASE)
+                        # Hide an unclosed <think> block that is currently streaming
+                        display_text = re.sub(r"<think>.*$", "", display_text, flags=re.DOTALL | re.IGNORECASE)
+                        display_text = re.sub(r"</?think>", "", display_text, flags=re.IGNORECASE).strip()
+                        
+                        message_placeholder.markdown(display_text + "▌")
+
+                # Clean the final response one last time
+                full_response = re.sub(r"<think>.*?</think>", "", full_response, flags=re.DOTALL | re.IGNORECASE)
+                full_response = re.sub(r"</?think>", "", full_response, flags=re.IGNORECASE).strip()
 
                 if not full_response.strip():
                     full_response = "I'm sorry, I had a little trouble processing that. Could you please say it again?"
