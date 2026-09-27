@@ -21,6 +21,16 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
+# CURRENT MODE DETECTION
+# --------------------------------------------------
+current_mode = "light"
+config_path = ".streamlit/config.toml"
+if os.path.exists(config_path):
+    with open(config_path, "r") as f:
+        if 'base="dark"' in f.read():
+            current_mode = "dark"
+
+# --------------------------------------------------
 # GLOBAL CSS
 # --------------------------------------------------
 st.markdown(
@@ -290,6 +300,36 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+if current_mode == "dark":
+    st.markdown(
+        """
+        <style>
+        :root {
+            --mm-bg:        #121815;
+            --mm-surface:   #1a241f;
+            --mm-primary:   #4ade80;
+            --mm-primary-2: #22c55e;
+            --mm-accent:    #064e3b;
+            --mm-text:      #e2ece7;
+            --mm-muted:     #94a3b8;
+            --mm-border:    #2d3748;
+            --mm-shadow:    0 4px 20px rgba(0,0,0,0.4);
+        }
+        .stApp { background: var(--mm-bg) !important; }
+        .mm-hero { background: linear-gradient(135deg, #1a241f 0%, #121815 100%) !important; }
+        .mm-badge { background: #152b20 !important; }
+        section[data-testid="stSidebar"] { background: linear-gradient(180deg, #1a241f 0%, #121815 100%) !important; }
+        .mm-disclaimer { background: #332b13 !important; border-color: #665421 !important; border-left-color: #b3923b !important; color: #f2dc9b !important; }
+        .stButton > button { background: #1a241f !important; }
+        .stButton > button:hover { background: #152b20 !important; }
+        div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) { background: #152b20 !important; border-color: #1a3828 !important; }
+        div[data-testid="stChatInput"] { background: #1a241f !important; }
+        div[data-testid="stChatMessage"] h3 { background: #152b20 !important; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 # --------------------------------------------------
 # SESSION STATE
 # --------------------------------------------------
@@ -341,13 +381,8 @@ with st.sidebar:
     
     st.markdown("<br/>", unsafe_allow_html=True)
     
-    current_mode = "light"
-    config_path = ".streamlit/config.toml"
-    if os.path.exists(config_path):
-        with open(config_path, "r") as f:
-            if 'base="dark"' in f.read():
-                current_mode = "dark"
-                
+    st.markdown("<br/>", unsafe_allow_html=True)
+    
     theme_col1, theme_col2 = st.columns([1, 1])
     with theme_col1:
         if st.button("☀️ Light", use_container_width=True, disabled=(current_mode == "light")):
