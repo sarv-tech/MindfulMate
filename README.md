@@ -14,7 +14,8 @@ With a beautiful, modern UI inspired by premium health applications, MindfulMate
 - **Voice Interactions:** 
   - **Voice Input:** Speak directly to the AI using the integrated microphone UI (powered by `streamlit-mic-recorder` and Whisper).
   - **Text-to-Speech:** Listen to Dr. MindfulMate's responses aloud via the integrated `gTTS` audio generation engine.
-- **Premium UI/UX:** Built with a beautiful glassmorphism aesthetic, custom CSS animations, circular chat inputs, pulsating buttons, and a responsive layout.
+- **Premium UI/UX:** Built with a beautiful aesthetic, custom CSS animations, circular chat inputs, pulsating buttons, and a responsive layout.
+- **Native Light/Dark Mode:** Features a custom, seamlessly integrated Light & Dark mode toggle in the sidebar that dynamically rewrites the core Streamlit configuration to ensure a flawless, glich-free UI experience across all components.
 - **Crisis Safety Net:** Features an omnipresent red Floating Action Button (FAB) and strict prompt directives to redirect users to global crisis helplines (e.g., 988) if self-harm or emergencies are detected.
 
 ---
