@@ -1074,6 +1074,13 @@ OUTPUT FORMAT:
 - Never output <think>, </think>, or similar reasoning tags.
 - Return only the final response intended for the user.
 - Do not explain your internal reasoning process.
+
+WRITING STYLE:
+- Write like a natural, supportive college wellness assistant.
+- Prefer short, clear sentences.
+- Do not use em dashes (—), en dashes (–), or repeated hyphens (---).
+- Use commas or full stops instead.
+- Avoid overly polished, dramatic, corporate, or AI-sounding language.
 """
 
 # --------------------------------------------------
@@ -1296,12 +1303,22 @@ else:
                         # Hide an unclosed <think> block that is currently streaming
                         display_text = re.sub(r"<think>.*$", "", display_text, flags=re.DOTALL | re.IGNORECASE)
                         display_text = re.sub(r"</?think>", "", display_text, flags=re.IGNORECASE).strip()
+
+                        # Replace dash variations with natural punctuation
+                        display_text = display_text.replace("—", ", ")
+                        display_text = display_text.replace("–", ", ")
+                        display_text = re.sub(r"-{3,}", ", ", display_text)
+                        display_text = re.sub(r"\s{2,}", " ", display_text)
                         
                         message_placeholder.markdown(display_text + "▌")
 
                 # Clean the final response one last time
                 full_response = re.sub(r"<think>.*?</think>", "", full_response, flags=re.DOTALL | re.IGNORECASE)
                 full_response = re.sub(r"</?think>", "", full_response, flags=re.IGNORECASE).strip()
+                full_response = full_response.replace("—", ", ")
+                full_response = full_response.replace("–", ", ")
+                full_response = re.sub(r"-{3,}", ", ", full_response)
+                full_response = re.sub(r"\s{2,}", " ", full_response)
 
                 if not full_response.strip():
                     full_response = "I'm sorry, I had a little trouble processing that. Could you please say it again?"
