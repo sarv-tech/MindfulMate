@@ -1331,7 +1331,7 @@ else:
                 )
 
             except Exception as e:
-                error_msg = "I'm sorry, I encountered a temporary connection issue. Please try saying that again."
+                error_msg = f"I'm sorry, I encountered a connection issue. Error: {str(e)}"
                 message_placeholder.error(error_msg)
                 st.session_state.messages.append(
                     {"role": "assistant", "content": error_msg}
