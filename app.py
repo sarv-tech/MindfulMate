@@ -1331,7 +1331,12 @@ else:
                 )
 
             except Exception as e:
-                error_msg = f"I'm sorry, I encountered a connection issue. Error: {str(e)}"
+                err_str = str(e)
+                if "429" in err_str or "rate limit" in err_str.lower():
+                    error_msg = "I'm currently overwhelmed with messages and have hit my daily limit. Please take a deep breath and try again in a few minutes!"
+                else:
+                    error_msg = "I'm sorry, I encountered a temporary connection issue. Please try saying that again."
+                
                 message_placeholder.error(error_msg)
                 st.session_state.messages.append(
                     {"role": "assistant", "content": error_msg}
