@@ -462,19 +462,22 @@ else:
         avatar = "🧑" if message["role"] == "user" else "🌿"
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
-            if message["role"] == "assistant":
+            if message["role"] == "assistant" and message["content"].strip():
                 if st.button("🔊 Read Aloud", key=f"tts_{i}"):
                     from gtts import gTTS
                     import io
                     with st.spinner("Generating audio..."):
-                        tts = gTTS(message["content"], lang="en")
-                        fp = io.BytesIO()
-                        tts.write_to_fp(fp)
-                        fp.seek(0)
-                        import base64
-                        b64 = base64.b64encode(fp.read()).decode()
-                        audio_html = f'<audio autoplay="true" controls style="height: 40px; margin-top: 10px;"><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
-                        st.markdown(audio_html, unsafe_allow_html=True)
+                        try:
+                            tts = gTTS(message["content"], lang="en")
+                            fp = io.BytesIO()
+                            tts.write_to_fp(fp)
+                            fp.seek(0)
+                            import base64
+                            b64 = base64.b64encode(fp.read()).decode()
+                            audio_html = f'<audio autoplay="true" controls style="height: 40px; margin-top: 10px;"><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
+                            st.markdown(audio_html, unsafe_allow_html=True)
+                        except AssertionError:
+                            st.error("No text available to read aloud.")
 
     # ---------- Chat input & Voice ----------
     audio = mic_recorder(start_prompt="🎙️", stop_prompt="🛑", key="recorder")
