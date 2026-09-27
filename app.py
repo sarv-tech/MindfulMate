@@ -56,7 +56,7 @@ st.markdown(
     }
 
     /* ---------- Hide Streamlit chrome ---------- */
-    #MainMenu, footer, header { visibility: hidden; }
+    #MainMenu, footer { visibility: hidden; }
     .block-container {
         padding-top: 1.5rem;
         padding-bottom: 6rem;
