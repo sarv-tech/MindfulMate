@@ -1247,7 +1247,12 @@ else:
 
             # Pass the new system prompt
             api_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-            api_messages += st.session_state.messages[:-1]
+            
+            # Keep only the last 10 messages (5 turns) to prevent context length errors after "some chat"
+            recent_history = st.session_state.messages[:-1]
+            if len(recent_history) > 10:
+                recent_history = recent_history[-10:]
+            api_messages += recent_history
             
             user_query = st.session_state.messages[-1]["content"]
             
@@ -1278,6 +1283,11 @@ else:
                 )
 
             except Exception as e:
-                st.error(f"An error occurred while generating the response: {e}")
+                error_msg = "I'm sorry, I encountered a temporary connection issue. Please try saying that again."
+                message_placeholder.error(error_msg)
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": error_msg}
+                )
+                print(f"API Error: {e}")
 
 
