@@ -2,29 +2,30 @@
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://mindfulmate-xrz9svvq9bvq9ee7cd5fzv.streamlit.app/)
 
-**MindfulMate** is a clinical-grade, AI-powered mental wellness companion built with **Streamlit** and **Groq**. It acts as a safe space for users to track their mood, vent their anxieties, and receive empathetic, evidence-based triage and informational support.
+**MindfulMate** is a supportive, conversational AI wellness companion built with **Streamlit** and **Groq**. It acts as a safe space for users to track their mood, reflect on their anxieties, and receive empathetic, practical, and everyday emotional support.
 
-With a beautiful, modern UI inspired by premium health applications, MindfulMate integrates a deeply empathetic AI core alongside seamless voice-to-text and text-to-speech capabilities.
+With a beautiful, modern UI inspired by premium health applications, MindfulMate integrates a warm conversational AI core alongside seamless voice-to-text and text-to-speech capabilities.
 
 ---
 
 ## ✨ Key Features
 
-- **Clinical-Grade Conversational AI:** Powered by Groq, Dr. MindfulMate adheres to a strict medical protocol providing empathetic assessments, structured responses, and critical triage to emergency services when needed.
+- **Empathetic Conversational AI:** Powered by Groq, MindfulMate acts as a supportive friend and wellness coach. It avoids clinical jargon, prioritizing warm, practical, and non-judgmental interactions for everyday stress management.
 - **Voice Interactions:** 
   - **Voice Input:** Speak directly to the AI using the integrated microphone UI (powered by `streamlit-mic-recorder` and Whisper).
-  - **Text-to-Speech:** Listen to Dr. MindfulMate's responses aloud via the integrated `gTTS` audio generation engine.
-- **Premium UI/UX:** Built with a beautiful aesthetic, custom CSS animations, circular chat inputs, pulsating buttons, and a responsive layout.
-- **Native Light/Dark Mode:** Features a custom, seamlessly integrated Light & Dark mode toggle in the sidebar that dynamically rewrites the core Streamlit configuration to ensure a flawless, glich-free UI experience across all components.
+  - **Text-to-Speech:** Listen to MindfulMate's responses aloud via the integrated `gTTS` audio generation engine.
+- **Premium UI/UX:** Built with a beautiful aesthetic, completely transparent floating navigation, pulsating buttons, and a responsive chat layout.
+- **Flawless Layout & Stability:** Includes automated context-window management to handle infinitely long conversations, seamless component positioning, and auto-recovery loops to prevent UI crashes.
+- **Native Light/Dark Mode:** Features a custom, seamlessly integrated Light & Dark mode toggle in the sidebar that dynamically rewrites the core Streamlit configuration to ensure a flawless, glitch-free UI experience across all components.
 - **Crisis Safety Net:** Features an omnipresent red Floating Action Button (FAB) and strict prompt directives to redirect users to global crisis helplines (e.g., 988) if self-harm or emergencies are detected.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Frontend:** [Streamlit](https://streamlit.io/) with heavy custom CSS injections for a modern, non-standard aesthetic.
+- **Frontend:** [Streamlit](https://streamlit.io/) with heavy custom CSS injections for a modern, floating, non-standard aesthetic.
 - **AI / LLM Engine:** [Groq API](https://groq.com/) for blazing-fast inference.
-- **Audio Processing:** `gTTS` (Google Text-to-Speech) for audio output, and Groq's Whisper API for audio transcription.
+- **Audio Processing:** `gTTS` (Google Text-to-Speech) for audio output, and Groq's Whisper API for flawless audio transcription.
 
 ---
 
@@ -73,6 +74,6 @@ The app will automatically open in your default web browser (usually at `http://
 
 ## ⚠️ Disclaimer
 
-**MindfulMate is an informational tool and is NOT a substitute for professional medical advice, diagnosis, treatment, or therapy.** 
+**MindfulMate is a supportive informational tool and is NOT a doctor, therapist, psychiatrist, psychologist, emergency responder, or clinical-grade medical system.** 
 
 The AI is designed for general mental wellness support and stress relief. If you are experiencing a mental health crisis, severe distress, or believe you may be in immediate danger, please contact your local emergency services (911 in the US, 999 in the UK) or reach out to a global crisis helpline immediately via [Find a Helpline](https://findahelpline.com/).
