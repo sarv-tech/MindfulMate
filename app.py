@@ -335,6 +335,29 @@ if current_mode == "dark":
         """,
         unsafe_allow_html=True,
     )
+    
+    # JavaScript hack to reach inside the mic_recorder iframe and remove its internal button border
+    st.components.v1.html(
+        """
+        <script>
+        setInterval(() => {
+            const iframes = window.parent.document.querySelectorAll("iframe");
+            iframes.forEach(iframe => {
+                try {
+                    const btn = iframe.contentWindow.document.querySelector("button");
+                    if (btn && btn.textContent && (btn.textContent.includes("Voice Input") || btn.textContent.includes("Stop"))) {
+                        btn.style.border = "none";
+                        btn.style.boxShadow = "none";
+                        btn.style.outline = "none";
+                    }
+                } catch (e) {}
+            });
+        }, 200);
+        </script>
+        """,
+        height=0,
+        width=0
+    )
 
 # --------------------------------------------------
 # SESSION STATE
